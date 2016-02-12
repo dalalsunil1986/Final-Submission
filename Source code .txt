@@ -1,0 +1,413 @@
+            
+              FINAL PROJECT ON PAYROLL SYSTEM
+
+
+
+#include<stdio.h>
+#include<process.h>
+#include<ctype.h>
+#include<string.h>
+#include<dos.h>
+#include<conio.h>
+#define PAUSE 10000
+
+void addEmp();
+void viewEmp();
+void addDed();
+void viewDed();
+void exitSys();
+void linefill(int start);
+
+struct employee{
+char code[10];
+char fname[15];
+char lname[15];
+char mname[5];
+char sex[10];
+char status[15];
+char ded_name1[15];
+char ded_name2[15];
+char ded_name3[15];
+float grossPay;
+float netPay;
+float tax;
+float ded_n1;
+float ded_n2;
+float ded_n3;
+}empRec[50];
+
+char ch,ID[10];
+int x,cntrX,idCheck;
+
+void main()
+{
+int start=16,end=20;
+textattr(9+(1<<4)); clrscr(); cntrX=0;
+while(1 == 1)
+ {
+ window(1,1,80,25);
+ linefill(start); textattr(10+(1<<4));
+ gotoxy(20,3); cprintf("Ûßßß Ü ÛßßÛ ÜÜÜÜ Û   ");
+ gotoxy(20,4); cprintf("ÛÛßß Ü ÛÛ Û ÜÜÜÛ ÛÛ  ");
+ gotoxy(20,5); cprintf("ÛÛ   Û ÛÛ Û ÛÜÜÛ ÛÛÜÜ");
+ textattr(6+(1<<4));
+ gotoxy(42,3); cprintf("Üßßßß Û   Û Üßßßß");
+ gotoxy(42,4); cprintf(" ßßßÜ  ßÛß   ßßßÜ");
+ gotoxy(42,5); cprintf("ßßßß    ß   ßßßß ");
+ textattr(15+(1<<4));
+ gotoxy(60,3); cprintf("TM ");
+ gotoxy(23,7); cprintf("           PayRoll Project  ");
+ gotoxy(23,8); cprintf("         by: Vaibhav Soni  ");
+ gotoxy(23,9); cprintf("           Arya College Of Engneering & I.T");
+ textattr(2+(4<<4));
+ gotoxy(29,14); cprintf(" >> M A I N  M E N U << ");
+ textattr(2+(1<<4));
+ gotoxy(25,15); cprintf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
+ gotoxy(33,16); printf("Add new employee");
+ gotoxy(33,17); printf("View employee");
+ gotoxy(33,18); printf("Add deduction");
+ gotoxy(33,19); printf("View deduction");
+ gotoxy(33,20); printf("Quit");
+ gotoxy(25,21); cprintf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
+ textattr(14+(1<<4));
+ gotoxy(2,25);  cprintf("FiNaLSYS PAYROLL ");
+ gotoxy(63,25); cprintf("Copyright(c) Arya");
+ ch=getch();
+ if(ch==72)
+  {
+  textbackground(1); textcolor(9);
+  gotoxy(31,start); cprintf("                    ");
+  start = start -1;
+  if(start < 16)
+   {
+   start = end;
+   }
+  textbackground(1); textcolor(9);
+  gotoxy(31,start+1); cprintf("                    ");
+  linefill(start);
+  }
+ if(ch==80)
+  {
+  textbackground(1); textcolor(9);
+  gotoxy(31,start); cprintf("                    ");
+  start = start + 1;
+  if(start > 20)
+   {
+   start = 16;
+   }
+  textbackground(1); textcolor(9);
+  gotoxy(31,start-1); cprintf("                    ");
+  linefill(start);
+  }
+ if(ch == 13)
+  {
+  if(start == 16)
+   {
+   addEmp(); textattr(9+(1<<4));
+   window(1,1,80,24); clrscr();
+   }
+  if(start == 17)
+   {
+   viewEmp(); textattr(9+(1<<4));
+   window(1,1,80,24); clrscr();
+   }
+  if(start == 18)
+   {
+   addDed(); textattr(9+(1<<4));
+   window(1,1,80,24); clrscr();
+   }
+  if(start == 19)
+   {
+   viewDed(); textattr(9+(1<<4));
+   window(1,1,80,24); clrscr();
+   }
+  if(start == 20)
+   {
+   exitSys(); exit(0);
+   }
+  }
+ }
+}
+
+void addEmp()
+{
+float pay1;
+char name1[15],name2[15],name3[5],name4[10],name5[15];
+ch=0;
+while(ch != 'N')
+ {
+ window(8,4,72,22);
+ textattr(2+(0<<4)); clrscr(); textattr(7+(0<<4));
+ while(1 == 1)
+  {
+  idCheck=0;
+  gotoxy(6,3); cprintf("Enter code     : "); scanf("%s",&ID);
+  for(x=0;x<cntrX+1;x++)
+   {
+   if(strcmp(empRec[x].code,ID)==0)
+    {
+    idCheck=1;
+    }
+   }
+  if(idCheck==1)
+   {
+   gotoxy(23,3); printf("                          ");
+   gotoxy(2,19); cprintf("Code no. already exist!                        ");
+   delay(PAUSE);
+   gotoxy(2,19); printf("                                               ");
+   }
+  else
+   {
+   break;
+   }
+  }
+ gotoxy(6,8);  cprintf("Last Name      : ");
+ gotoxy(6,9);  cprintf("First Name     : ");
+ gotoxy(6,10); cprintf("Middle Initial : ");
+ gotoxy(6,11); cprintf("Sex            : ");
+ gotoxy(6,12); cprintf("Status         : ");
+ gotoxy(6,13); cprintf("Monthly Pay    : ");
+
+ gotoxy(23,8);  scanf("%s",&name1);
+ gotoxy(23,9);  scanf("%s",&name2);
+ gotoxy(23,10); scanf("%s",&name3);
+ gotoxy(23,11); scanf("%s",&name4);
+ gotoxy(23,12); scanf("%s",&name5);
+ gotoxy(23,13); scanf("%f",&pay1);
+ gotoxy(2,19); cprintf("Save this entry? (Y/N)                           ");
+ ch=0;
+ while(ch != 'Y'&& ch != 'N')
+  {
+  ch=toupper(getch());
+  }
+ if(ch=='Y')
+  {
+  cntrX++;
+  strcpy(empRec[cntrX].code,ID);
+  strcpy(empRec[cntrX].fname,name1);
+  strcpy(empRec[cntrX].lname,name2);
+  strcpy(empRec[cntrX].mname,name3);
+  strcpy(empRec[cntrX].sex,name4);
+  strcpy(empRec[cntrX].status,name5);
+  empRec[cntrX].grossPay = pay1;
+  empRec[cntrX].tax = (.12)*pay1;
+  empRec[cntrX].netPay = empRec[cntrX].grossPay-empRec[cntrX].tax;
+  gotoxy(2,19); cprintf("Saving entry...                                 ");
+  delay(PAUSE);
+  }
+ else
+  {
+  gotoxy(2,19); cprintf("Saving cancelled...                             ");
+  delay(PAUSE);
+  }
+ gotoxy(2,19); cprintf("Save entry again? (Y/N)                          ");
+ ch=0;
+ while(ch != 'Y'&& ch != 'N')
+  {
+  ch=toupper(getch());
+  }
+ }
+}
+
+void viewEmp()
+{
+ch=0;
+while(ch != 'N')
+ {
+ idCheck=0;
+ window(8,4,72,22);
+ textattr(2+(0<<4)); clrscr(); textattr(7+(0<<4));
+ gotoxy(6,3); cprintf("Enter code     : "); scanf("%s",&ID);
+ for(x=0;x<cntrX+1;x++)
+  {
+  if(strcmp(ID,empRec[x].code)==0)
+   {
+   gotoxy(6,8);  cprintf("Last Name      : ");
+   gotoxy(6,9);  cprintf("First Name     : ");
+   gotoxy(6,10); cprintf("Middle Initial : ");
+   gotoxy(6,11); cprintf("Sex            : ");
+   gotoxy(6,12); cprintf("Status         : ");
+   gotoxy(6,13); cprintf("Net Pay        : ");
+
+   gotoxy(23,8);  printf("%s",empRec[x].fname);
+   gotoxy(23,9);  printf("%s",empRec[x].lname);
+   gotoxy(23,10); printf("%s",empRec[x].mname);
+   gotoxy(23,11); printf("%s",empRec[x].sex);
+   gotoxy(23,12); printf("%s",empRec[x].status);
+   gotoxy(23,13); printf("%.2f",empRec[x].netPay);
+   idCheck=1; break;
+   }
+  }
+ if(idCheck==0)
+  {
+  gotoxy(2,19); cprintf("Employee record not found...                 ");
+  delay(PAUSE);
+  }
+ gotoxy(2,19); cprintf("View employee again? (Y/N)                    ");
+ ch=0;
+ while(ch != 'Y'&& ch != 'N')
+  {
+  ch=toupper(getch());
+  }
+ }
+}
+
+void addDed()
+{
+char nameded1[15],nameded2[15],nameded3[15];
+float amount1,amount2,amount3;
+ch=0;
+while(ch != 'N')
+ {
+ window(8,4,72,22); idCheck=0;
+ textattr(2+(0<<4)); clrscr(); textattr(7+(0<<4));
+ gotoxy(3,2); cprintf("Enter code : "); scanf("%s",&ID);
+ for(x=0;x<cntrX+1;x++)
+  {
+  if(strcmp(ID,empRec[x].code)==0)
+   {
+   idCheck=1;
+   gotoxy(3,6);  cprintf("Name        : ");
+   gotoxy(3,7);  cprintf("Monthly Pay : ");
+   gotoxy(46,6); cprintf("Sex    : ");
+   gotoxy(46,7); cprintf("Status : ");
+
+   gotoxy(17,6); printf("%s %s %s",empRec[x].fname,empRec[x].lname,empRec[x].mname);
+   gotoxy(17,7); printf("%.2f",empRec[x].grossPay);
+   gotoxy(55,6); printf("%s",empRec[x].sex);
+   gotoxy(55,7); printf("%s",empRec[x].status);
+
+   gotoxy(16,10); cprintf(" Type of Deduction  ³  Amount");
+   gotoxy(16,11); cprintf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
+   gotoxy(17,12); cprintf("1)"); gotoxy(36,12); cprintf("³");
+   gotoxy(17,13); cprintf("2)"); gotoxy(36,13); cprintf("³");
+   gotoxy(17,14); cprintf("3)"); gotoxy(36,14); cprintf("³");
+
+   gotoxy(20,12); scanf("%s",&nameded1);
+   gotoxy(39,12); scanf("%f",&amount1);
+
+   gotoxy(20,13); scanf("%s",&nameded2);
+   gotoxy(39,13); scanf("%f",&amount2);
+
+   gotoxy(20,14); scanf("%s",&nameded3);
+   gotoxy(39,14); scanf("%f",&amount3);
+
+   gotoxy(2,19); cprintf("Save this entry? (Y/N)                     ");
+   ch=0;
+   while(ch != 'Y'&& ch != 'N')
+    {
+    ch=toupper(getch());
+    }
+   if(ch == 'Y')
+    {
+    for(x=0;x<cntrX+1;x++)
+     {
+     strcpy(empRec[x].ded_name1,nameded1);
+     strcpy(empRec[x].ded_name2,nameded2);
+     strcpy(empRec[x].ded_name3,nameded3);
+     empRec[x].ded_n1 = amount1;
+     empRec[x].ded_n2 = amount2;
+     empRec[x].ded_n3 = amount3;
+     empRec[x].netPay = empRec[x].grossPay-empRec[x].tax-amount1-amount2-amount3;
+     }
+    gotoxy(2,19); cprintf("Saving entry...                             ");
+    delay(PAUSE); break;
+    }
+   else
+    {
+    gotoxy(2,19); cprintf("Saving cancelled...                         ");
+    delay(PAUSE); break;
+    }
+   }
+  }
+ if(idCheck==0)
+  {
+  gotoxy(2,19); cprintf("Employee record not found...                  ");
+  delay(PAUSE);
+  }
+ gotoxy(2,19); cprintf("Add deduction again? (Y/N)                    ");
+ ch=0;
+ while(ch != 'Y'&& ch != 'N')
+  {
+  ch=toupper(getch());
+  }
+ }
+}
+
+void viewDed()
+{
+ch=0;
+while(ch != 'N')
+ {
+ window(8,4,72,22); idCheck=0;
+ textattr(2+(0<<4)); clrscr(); textattr(7+(0<<4));
+ gotoxy(3,2); cprintf("Enter code : "); scanf("%s",&ID);
+ for(x=0;x<cntrX+1;x++)
+  {
+  if(strcmp(ID,empRec[x].code)==0)
+   {
+   idCheck=1;
+   gotoxy(3,5);  cprintf("Name        : ");
+   gotoxy(3,6);  cprintf("Monthly Pay : ");
+   gotoxy(46,5); cprintf("Sex    : ");
+   gotoxy(46,6); cprintf("Status : ");
+
+   gotoxy(17,5); printf("%s %s %s",empRec[x].fname,empRec[x].lname,empRec[x].mname);
+   gotoxy(17,6); printf("%.2f",empRec[x].grossPay);
+   gotoxy(55,5); printf("%s",empRec[x].sex);
+   gotoxy(55,6); printf("%s",empRec[x].status);
+
+   gotoxy(16,9);  cprintf(" Type of Deduction  ³  Amount");
+   gotoxy(16,10);  cprintf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
+   gotoxy(17,11);  cprintf("1)");
+   gotoxy(17,12);  cprintf("2)");
+   gotoxy(17,13);  cprintf("3)");
+   gotoxy(17,14);  cprintf("4)");
+   gotoxy(36,11);  cprintf("³");
+   gotoxy(36,12);  cprintf("³");
+   gotoxy(36,13);  cprintf("³");
+   gotoxy(36,14);  cprintf("³");
+   gotoxy(36,16);  cprintf("³");
+   gotoxy(16,15);  cprintf("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ");
+
+   gotoxy(20,11); printf("Salary Tax");
+   gotoxy(20,12); printf("%s",empRec[x].ded_name1);
+   gotoxy(20,13); printf("%s",empRec[x].ded_name2);
+   gotoxy(20,14); printf("%s",empRec[x].ded_name3);
+   gotoxy(20,16); printf("Net Pay");
+
+   gotoxy(39,11); printf("%.2f",empRec[x].tax );
+   gotoxy(39,12); printf("%.2f",empRec[x].ded_n1 );
+   gotoxy(39,13); printf("%.2f",empRec[x].ded_n2 );
+   gotoxy(39,14); printf("%.2f",empRec[x].ded_n3 );
+   gotoxy(39,16); printf("%.2f",empRec[x].netPay);
+   }
+  }
+ if(idCheck==0)
+  {
+  gotoxy(2,19); cprintf("Employee record not found...                ");
+  delay(PAUSE);
+  }
+ gotoxy(2,19); cprintf("View deduction again? (Y/N)                   ");
+ ch=0;
+ while(ch != 'Y'&& ch != 'N')
+  {
+  ch=toupper(getch());
+  }
+ }
+}
+
+void linefill(int start)
+{
+textattr(0+(7<<4));
+gotoxy(31,start); cprintf("                    ");
+}
+
+void exitSys()
+{
+window(8,4,72,22);
+textattr(7+(0<<4)); clrscr();
+gotoxy(16,10); printf("Please wait while system exits... ");
+delay(PAUSE);
+}
+
